@@ -147,8 +147,8 @@ class GudangTrackingController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required',
-            'tanggal' => 'required',
+            // 'nama' => 'required',
+            // 'tanggal' => 'required',
             // 'pickup' => 'required',
             // 'tujuan' => 'required',
             // 'berat' => 'required',
@@ -157,13 +157,13 @@ class GudangTrackingController extends Controller
             'track' => 'required',
         ]);
         $data = [
-            'name'=>$request->nama,
-            'date'=>$request->tanggal,
-            'pickup_address'=>$request->pickup,
-            'destination_address'=>$request->tujuan,
-            'weight'=>$request->berat,
-            'phone'=>$request->telp,
-            'total'=>$request->total,
+            // 'name'=>$request->nama,
+            // 'date'=>$request->tanggal,
+            // 'pickup_address'=>$request->pickup,
+            // 'destination_address'=>$request->tujuan,
+            // 'weight'=>$request->berat,
+            // 'phone'=>$request->telp,
+            // 'total'=>$request->total,
             'tracking'=>$request->track
         ];
         transaksi::where('id',$id)->update($data);

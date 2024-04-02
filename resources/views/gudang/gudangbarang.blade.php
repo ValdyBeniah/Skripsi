@@ -57,6 +57,9 @@
                 @forEach ($data as $item)
                 <p class="card-text">{{ $item->jumlah }}</p>
                 @endforeach
+                <a href='{{ url('gudangbarang/'.$item->id.'/edit') }}' class="btn btn-warning btn-sm me-2">
+                  Edit
+                </a>
               </div>
             </div>
           </div>

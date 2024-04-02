@@ -88,10 +88,10 @@
             </div>
             <div class="col-md-4">
               <div class="card text-dark bg-light mb-3" style="max-width: 100%;">
-                <h5 class="card-header">Report</h5>
+                <h5 class="card-header">Truk</h5>
                 <div class="card-body">
                   <div class="dashboard1">
-                    <h3 class="card-title"></h3>
+                    {{-- <h3 class="card-title">{{ $jumlahTruk }}</h3> --}}
                     <i class="fa fa-money fa-3x" aria-hidden="true"></i>
                   </div>
                 </div>

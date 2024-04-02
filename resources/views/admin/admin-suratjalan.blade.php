@@ -30,9 +30,9 @@
 
         table {
         table-layout: fixed; /* Fixed table layout ensures consistent column widths */
-        width: 100%; /* Adjust if necessary */
+        /* width: 100%;
         margin-bottom: 1rem;
-        }
+        } */
 
         th, td {
             padding: 0.5rem;
@@ -84,10 +84,10 @@
                 <table class="table table-light">
                     <tbody>
                         {{-- @foreach($transactions as $transaction) --}}
-                        {{-- <tr>
-                            <td>No</td>
-                            <td>{{$transaction->id}}</td>
-                        </tr> --}}
+                        <tr>
+                            <td>Kode Transaksi</td>
+                            <td>{{ $uniqueCode }}</td>
+                        </tr>
                         <tr>
                             <td>Nama Pemesan</td>
                             <td>{{$transaction->name}}</td>

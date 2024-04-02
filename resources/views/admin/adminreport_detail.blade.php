@@ -54,7 +54,7 @@
               {{-- <a href="{{ url('suratjalan/view/pdf', ['id' => $item->id]) }}" style="color: white;"> --}}
                 <a href="{{ url('suratjalan/view/pdf') }}" style="color: white;" target="_blank">
                   <i class="fa fa-file-text" aria-hidden="true"></i>
-                  Surat Jalan
+                  Print
               </a>
             </button>
             <br><br>

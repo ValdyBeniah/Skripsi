@@ -58,9 +58,10 @@ class GudangBarangController extends Controller
      * @param  \App\Models\gudangbarang  $gudangbarang
      * @return \Illuminate\Http\Response
      */
-    public function edit(gudangbarang $gudangbarang)
+    public function edit($id)
     {
-        //
+        $data = truk::where('id', $id)->first();
+        return view('gudang.edit-gudangtruk')->with('data', $data);
     }
 
     /**
@@ -70,9 +71,13 @@ class GudangBarangController extends Controller
      * @param  \App\Models\gudangbarang  $gudangbarang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, gudangbarang $gudangbarang)
+    public function update(Request $request, $id)
     {
-        //
+        $data = [
+            'jumlah'=>$request->jumlah,
+        ];
+        truk::where('id',$id)->update($data);
+        return redirect()->to('gudangbarang')->with('success', 'Berhasil mengupdate data');
     }
 
     /**

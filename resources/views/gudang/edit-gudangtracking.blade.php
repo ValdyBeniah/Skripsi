@@ -37,7 +37,7 @@
                 {{ $data->id }}
             </div>
         </div>
-        <div class="mb-3 row">
+        {{-- <div class="mb-3 row">
             <label for="nama" class="col-sm-2 col-form-label">Nama</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name='nama' value="{{ $data->name }}" id="nama">
@@ -78,7 +78,8 @@
         <div class="col-sm-10">
             <input type="text" class="form-control" name='total' value="{{ $data->total }}" id="total">
         </div>
-      </div>
+      </div> --}}
+
       {{-- <div class="mb-3 row">
         <label for="track" class="col-sm-2 col-form-label">Track</label>
         <div class="col-sm-10">

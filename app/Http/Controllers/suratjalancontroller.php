@@ -36,12 +36,13 @@ class SuratJalanController extends Controller
         // $mpdf->Output("Surat Jalan.pdf", 'I');
         // Retrieve the transaction by ID
         $transaction = transaksi::where('id', $id)->firstOrFail();
-
-        // Initialize mPDF
         $mpdf = new \Mpdf\Mpdf;
-    
-        // Render view to HTML
-        $html = view('admin.admin-suratjalan', compact('transaction'))->render();
+
+        // Generate a unique random code
+        $uniqueCode = uniqid();
+
+        // Render view to HTML, pass the unique code to the view
+        $html = view('admin.admin-suratjalan', compact('transaction', 'uniqueCode'))->render();
     
         // Write HTML to PDF
         $mpdf->WriteHTML($html);
