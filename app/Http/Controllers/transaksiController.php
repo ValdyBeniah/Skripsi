@@ -91,6 +91,16 @@ class transaksiController extends Controller
         // Retrieve the truck record from the database.
         $truckRecord = truk::first();
 
+        //Mengambil data jumlah truk lalu mengecek dengan jumlah yang diinput apakah terlalu banyak
+        //jika kebanyakan maka akan muncul alert jumlah truk tidak cukup
+        $availableTrucks = truk::sum('jumlah');
+        $requestedTrucks = intval($request->truk);
+
+        if ($requestedTrucks > $availableTrucks) {
+            // Kembalikan ke halaman sebelumnya dengan pesan kesalahan
+            return back()->withErrors(['truk' => 'Jumlah truk yang diminta terlalu banyak, tidak cukup truk yang tersedia.'])->withInput();
+        }
+
         // Check if there are enough trucks available.
         if ($truckRecord && $truckRecord->jumlah >= $requestedTrucks) {
             // Subtract the number of requested trucks from the current amount.

@@ -96,6 +96,10 @@ class GudangTrackingController extends Controller
 
         $transaction->is_completed = true; // Asumsi Anda memiliki kolom `is_completed` di database
         $transaction->save();
+
+        //Mengubah status menjadi finish jika button selesai ditekan
+        $transaction->update(['tracking' => 'finish']);
+
         // Retrieve the truck record from the database.
         $truckRecord = truk::first();
         if ($truckRecord) {
