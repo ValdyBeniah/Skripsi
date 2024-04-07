@@ -49,7 +49,6 @@ class SuratJalanController extends Controller
         $suratJalan->total = $request->total;
 
         $suratJalan->save();
-        // return redirect()->back()->with('success', 'Data telah berhasil disimpan ke dalam database.');
         return redirect()->route('admintransaksi')->with('success', 'Data telah berhasil disimpan ke dalam database.');
     }
 

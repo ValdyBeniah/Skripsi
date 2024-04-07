@@ -68,7 +68,9 @@ Route::get('/admindetailreport/{date}', [AdminReportController::class, 'showDeta
 
 //Surat Jalan Admin
 Route::get('/suratjalan', [suratjalancontroller::class, 'index']);
-// Route::get('suratjalan/view/pdf/{id}', [suratjalancontroller::classRoute::get('/suratjalan/view/pdf/{id}', [suratjalancontroller::class, 'view_pdf']);
+// Route::get('suratjalan/view/pdf/{id}', [suratjalancontroller::class
+
+Route::get('/suratjalan/view/pdf/{id}', [suratjalancontroller::class, 'view_pdf']);
 Route::get('/viewsuratjalan/{id}', [suratjalancontroller::class, 'indeks'])->name('viewsuratjalan');
 // Route::post('/viewsuratjalan/{id}', [SuratJalanController::class, 'simpan'])->name('simpan-suratjalan');
 Route::post('/savesuratjalan', [SuratJalanController::class, 'save'])->name('savesuratjalan');
