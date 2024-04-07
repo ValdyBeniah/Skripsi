@@ -14,6 +14,7 @@ class AdminDashboardController extends Controller
         $jumlahData = transaksi::count();
         $jumlahCustomer = Customer::count();
         $jumlahTruk = DB::table('truk')->sum('jumlah');
-        return view('admin.admindashboard', ['jumlahData' => $jumlahData, 'jumlahCustomer' => $jumlahCustomer, 'jumlahTruk' => $jumlahTruk]);
+        return view('admin.admindashboard',
+        ['jumlahData' => $jumlahData, 'jumlahCustomer' => $jumlahCustomer, 'jumlahTruk' => $jumlahTruk]);
     }
 }

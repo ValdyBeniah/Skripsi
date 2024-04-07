@@ -4,6 +4,7 @@
   	<title>PT Kesuma Express</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://use.fontawesome.com/0c7a3095b5.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
@@ -132,12 +133,15 @@
                               </button>
                           </form>
                       </div>
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdminTransaksi">
+                      <button type="button" id="tombolSuratJalan" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdminTransaksi">
                           {{-- <a href="{{ url('suratjalan/view/pdf', ['id' => $item->id]) }}" style="color: white;"> --}}
                             <a href="{{ url('suratjalan/view/pdf', ['id' => $item->id]) }}" style="color: white;" target="_blank">
                               <i class="fa fa-file-text" aria-hidden="true"></i>
                               Surat Jalan
                           </a>
+                      </button><br>
+                        <button id="btnSimpan-{{ $item->id }}" class="btn btn-success btnSimpan" data-id="{{ $item->id }}">
+                          Lihat
                       </button>
                   </div>
                   </td>
@@ -155,14 +159,50 @@
     <script src={{ asset('js/bootstrap.min.js') }}"></script>
     <script src={{ asset('js/main.js') }}></script>
     {{-- <script>
-      document.addEventListener('DOMContentLoaded', (event) => {
-        document.querySelectorAll('.btn-success').forEach(button => {
-          button.addEventListener('click', function() {
-            button.disabled = true;
-            button.form.submit();
+      $(document).ready(function() {
+          $('#btnSimpan').click(function() {
+              var data = {
+                  kode: "{{ $uniqueCode }}",
+                  nama: "{{ $transaction->name }}",
+                  tanggal: "{{ $transaction->date }}",
+                  alamatPengambilan: "{{ $transaction->pickup_address }}",
+                  alamatTujuan: "{{ $transaction->destination_address }}",
+                  barang: "{{ $transaction->barang }}",
+                  jenis: "{{ $transaction->jenis }}",
+                  truk: "{{ $transaction->truk }}",
+                  berat: "{{ $transaction->weight }}",
+                  phone: "{{ $transaction->phone }}",
+                  total: "{{ $transaction->total }}"
+              };
+  
+              $.ajax({
+                  url: '{{ route("simpan-suratjalan") }}', // Ganti dengan route yang sesuai
+                  type: 'POST',
+                  data: data,
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  success: function(response) {
+                      // Buka PDF di tab baru
+                      window.open(response.urlPdf, '_blank');
+                  },
+                  error: function(xhr, status, error) {
+                      alert('Terjadi kesalahan saat menyimpan data.');
+                  }
+              });
           });
-        });
       });
-    </script> --}}
+  </script> --}}
+  <script>
+    $(document).ready(function() {
+        $('.btnSimpan').click(function() {
+            var transaksiId = $(this).data('id'); // Mendapatkan ID dari data-id attribute
+
+            // Buka window baru untuk Surat Jalan dengan ID yang spesifik
+            window.open('{{ url('viewsuratjalan') }}/' + transaksiId, '_blank');
+        });
+    });
+</script>
+
   </body>
 </html>

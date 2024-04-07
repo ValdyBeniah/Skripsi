@@ -57,7 +57,7 @@
                 <h5 class="card-header">Transaksi</h5>
                 <div class="card-body">
                   <div class="dashboard1">
-                    {{-- <h3 class="card-title">{{ $jumlahData }}</h3> --}}
+                    <h3 class="card-title">{{ $jumlahData }}</h3>
                     <i class="fa fa-money fa-3x" aria-hidden="true"></i>
                   </div>
                 </div>
@@ -74,7 +74,7 @@
                 <h5 class="card-header">Customer</h5>
                 <div class="card-body">
                   <div class="dashboard2">
-                    {{-- <h3 class="card-title">{{ $jumlahCustomer }}</h3> --}}
+                    <h3 class="card-title">{{ $jumlahCustomer }}</h3>
                     <i class="fa fa-users fa-3x" aria-hidden="true"></i>
                   </div>
                 </div>
@@ -91,7 +91,7 @@
                 <h5 class="card-header">Truk</h5>
                 <div class="card-body">
                   <div class="dashboard1">
-                    {{-- <h3 class="card-title">{{ $jumlahTruk }}</h3> --}}
+                    <h3 class="card-title">{{ $jumlahTruk }}</h3>
                     <i class="fa fa-money fa-3x" aria-hidden="true"></i>
                   </div>
                 </div>
