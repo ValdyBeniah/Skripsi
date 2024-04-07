@@ -11,7 +11,8 @@ use Illuminate\Support\Str;
 
 class SuratJalanController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         // Fetch the transaction data from the database
         $transactions = transaksi::all(); // Or use a different query to get the specific transaction
         $uniqueCode = uniqid();
@@ -21,16 +22,17 @@ class SuratJalanController extends Controller
     }
 
     /////
-    public function indeks($id) {
+    public function indeks($id)
+    {
         // Fetch the specific transaction data from the database
         $transaction = transaksi::findOrFail($id); // Gunakan findOrFail untuk menghandle transaksi yang tidak ditemukan
         $uniqueCode = uniqid();
-    
+
         // Return the view with the transaction data
         return view('admin.admin-lihatsuratjalan', compact('transaction', 'uniqueCode'));
     }
     /////
-    
+
     public function save(Request $request)
     {
         $suratJalan = new suratjalan();
@@ -47,34 +49,20 @@ class SuratJalanController extends Controller
         $suratJalan->total = $request->total;
 
         $suratJalan->save();
-
-        // $suratJalan = [
-        //     'kode' => $request->kode,
-        //     'name' => $request->name,
-        //     'date' => $request->date,
-        //     'pickup_address' => $request->pickup_address,
-        //     'destination_address' => $request->destination_address,
-        //     'barang' => $request->barang,
-        //     'jenis' => $request->jenis,
-        //     'truk' => $request->truk,
-        //     'weight' => $request->weight,
-        //     'phone' => $request->phone,
-        //     'total' => $request->total
-        // ];
-
-        // suratjalan::create($suratJalan);
-        return redirect()->back()->with('success', 'Data telah berhasil disimpan ke dalam database.');
+        // return redirect()->back()->with('success', 'Data telah berhasil disimpan ke dalam database.');
+        return redirect()->route('admintransaksi')->with('success', 'Data telah berhasil disimpan ke dalam database.');
     }
 
-    public function view_pdf($id) {
+    public function view_pdf($id)
+    {
         // Fetch the transaction data for the specific ID
         // $transaction = transaksi::findOrFail($id);
-    
+
         // $mpdf = new \Mpdf\Mpdf();
         // ob_start();
         // $html = view('admin.admin-suratjalan', compact('transaction'))->render();
         // ob_end_clean();
-    
+
         // $mpdf->WriteHTML($html);
         // $mpdf->Output();
         /////
@@ -107,17 +95,17 @@ class SuratJalanController extends Controller
 
     // SuratJalanController.php
 
-public function simpan(Request $request) {
-    // Validasi request atau langsung simpan data
-    $suratJalan = new suratjalan(); // Ganti dengan model yang sesuai
-    $suratJalan->kode = $request->kode;
-    // Set property lainnya dari $suratJalan dengan data dari $request
-    $suratJalan->save();
+    public function simpan(Request $request)
+    {
+        // Validasi request atau langsung simpan data
+        $suratJalan = new suratjalan(); // Ganti dengan model yang sesuai
+        $suratJalan->kode = $request->kode;
+        // Set property lainnya dari $suratJalan dengan data dari $request
+        $suratJalan->save();
 
-    // URL untuk PDF (misal menggunakan route 'view_pdf' yang sudah Anda buat)
-    $urlPdf = route('view_pdf', $suratJalan->id);
+        // URL untuk PDF (misal menggunakan route 'view_pdf' yang sudah Anda buat)
+        $urlPdf = route('view_pdf', $suratJalan->id);
 
-    return response()->json(['urlPdf' => $urlPdf]);
-}
-
+        return response()->json(['urlPdf' => $urlPdf]);
+    }
 }

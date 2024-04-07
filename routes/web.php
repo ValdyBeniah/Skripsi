@@ -34,15 +34,15 @@ use Illuminate\Support\Facades\Route;
 
 
 //hanya guest yang bisa akses controller ini atau tidak dalam kondisi login
-Route::middleware(['guest'])->group(function(){
+Route::middleware(['guest'])->group(function () {
     Route::get('/', [SesiController::class, 'index'])->name('login');
     Route::post('/', [SesiController::class, 'login']);
 });
-Route::get('/home', function(){
+Route::get('/home', function () {
     return redirect('/admin');
 });
 
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index']);
     Route::get('/admin/admin', [AdminController::class, 'admin'])->middleware('userAkses:admin');
     Route::get('/admin/gudang', [AdminController::class, 'gudang'])->middleware('userAkses:gudang');
@@ -68,15 +68,11 @@ Route::get('/admindetailreport/{date}', [AdminReportController::class, 'showDeta
 
 //Surat Jalan Admin
 Route::get('/suratjalan', [suratjalancontroller::class, 'index']);
-Route::get('/suratjalan/view/pdf/{id}', [suratjalancontroller::class, 'view_pdf']);
+// Route::get('suratjalan/view/pdf/{id}', [suratjalancontroller::classRoute::get('/suratjalan/view/pdf/{id}', [suratjalancontroller::class, 'view_pdf']);
 Route::get('/viewsuratjalan/{id}', [suratjalancontroller::class, 'indeks'])->name('viewsuratjalan');
 // Route::post('/viewsuratjalan/{id}', [SuratJalanController::class, 'simpan'])->name('simpan-suratjalan');
-Route::post('/savesuratjalan', [SuratJalanController::class, 'simpan'])->name('savesuratjalan');
+Route::post('/savesuratjalan', [SuratJalanController::class, 'save'])->name('savesuratjalan');
 Route::post('/simpan-suratjalan', [SuratJalanController::class, 'simpan'])->name('simpan-suratjalan');
-
-
-//Customer Admin
-Route::resource('/admincustomer', CustomerController::class);
 Route::get('/form-customer', [CustomerController::class, 'create']);
 
 //Dashboard Gudang
@@ -121,5 +117,5 @@ Route::get('/admin/gudangbarang', function () {
 Route::get('/admin/gudangtracking', function () {
     return view('gudang.gudangtracking');
 });
-
+Route::get('/admintransaksi', [transaksiController::class, 'index'])->name('admintransaksi');
 Route::resource('transaksi', transaksiController::class);
