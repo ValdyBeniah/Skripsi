@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    function index() {
+    public function index() {
         return view('admin');
     }
 
@@ -23,9 +23,6 @@ class AdminController extends Controller
     }
 
     public function gudang() {
-        // echo "ini gudang";
-        // echo "<h1> Selamat datang " . Auth::user()->name . "</h1>";
-        // echo "<a href='/logout'>Logout</a>";
         return view('gudang.gudangdashboard');
     }
 }
