@@ -50,13 +50,7 @@
         <div id="content" class="p-4 p-md-5 pt-5">
             <h2 class="mb-2">Detail Transaksi untuk Tanggal: {{ $date }}</h2>
             <a href="{{ url('adminreport') }}" class="btn btn-secondary"><< Back</a>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdminTransaksi">
-              {{-- <a href="{{ url('suratjalan/view/pdf', ['id' => $item->id]) }}" style="color: white;"> --}}
-                <a href="{{ url('suratjalan/view/pdf') }}" style="color: white;" target="_blank">
-                  <i class="fa fa-file-text" aria-hidden="true"></i>
-                  Print
-              </a>
-            </button>
+            @foreach ($transaksiDetail as $transaksi)
             <br><br>
             <table class="table">
                 <thead>
@@ -75,7 +69,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($transaksiDetail as $transaksi)
+                    {{-- @foreach ($transaksiDetail as $transaksi) --}}
                     <tr>
                         <td>{{ $transaksi->id }}</td>
                         <td>{{ $transaksi->name }}</td>

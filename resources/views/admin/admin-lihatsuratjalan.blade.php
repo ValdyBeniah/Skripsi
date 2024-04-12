@@ -95,6 +95,7 @@
                     <input type="text" name="phone" value="{{ $transaction->phone }}">
                     <input type="text" name="total" value="{{ $transaction->total }}">
                     <button type="submit" class="btn btn-primary">Simpan ke Database</button>
+                    {{-- <a href="{{ route('transaksi.showPDF', $transaction->id) }}" target="_blank" class="btn btn-primary">Generate PDF</a> --}}
                 </form>
                 {{-- <div class="modal-footer">
                     <a href="{{ url('admintransaksi') }}" class="btn btn-secondary"><< Back</a>

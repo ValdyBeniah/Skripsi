@@ -71,10 +71,13 @@ Route::get('/suratjalan', [suratjalancontroller::class, 'index']);
 // Route::get('suratjalan/view/pdf/{id}', [suratjalancontroller::class
 
 Route::get('/suratjalan/view/pdf/{id}', [suratjalancontroller::class, 'view_pdf']);
+// Route::get('/suratjalan/pdf/{id}', [SuratJalanController::class, 'createPDF'])->name('transaksi.showPDF');
 Route::get('/viewsuratjalan/{id}', [suratjalancontroller::class, 'indeks'])->name('viewsuratjalan');
 // Route::post('/viewsuratjalan/{id}', [SuratJalanController::class, 'simpan'])->name('simpan-suratjalan');
 Route::post('/savesuratjalan', [SuratJalanController::class, 'save'])->name('savesuratjalan');
 Route::post('/simpan-suratjalan', [SuratJalanController::class, 'simpan'])->name('simpan-suratjalan');
+
+Route::resource('/admincustomer', CustomerController::class);
 Route::get('/form-customer', [CustomerController::class, 'create']);
 
 //Dashboard Gudang

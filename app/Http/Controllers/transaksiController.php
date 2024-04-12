@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\jenis;
+use App\Models\suratjalan;
 use App\Models\truk;
 use App\Models\transaksi;
 use Illuminate\Http\Request;
@@ -30,6 +31,8 @@ class transaksiController extends Controller
         }else{
             $data = transaksi::orderBy('id','desc')->paginate($jumlahbaris);
         }
+        
+        // $kode = suratjalan::all();
         return view('admin.admintransaksi')->with('data', $data);
     }
 

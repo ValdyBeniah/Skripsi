@@ -54,24 +54,9 @@ class SuratJalanController extends Controller
 
     public function view_pdf($id)
     {
-        // Fetch the transaction data for the specific ID
-        // $transaction = transaksi::findOrFail($id);
 
-        // $mpdf = new \Mpdf\Mpdf();
-        // ob_start();
-        // $html = view('admin.admin-suratjalan', compact('transaction'))->render();
-        // ob_end_clean();
-
-        // $mpdf->WriteHTML($html);
-        // $mpdf->Output();
-        /////
-        // $mpdf = new \Mpdf\Mpdf();
-        // $transactions = transaksi::where('id', $id)->get();
-        // $html = view('admin.admin-suratjalan', compact('transactions', 'id'))->render();
-        // $mpdf->WriteHTML($html);
-        // $mpdf->Output("Surat Jalan.pdf", 'I');
-        // Retrieve the transaction by ID
         $transaction = transaksi::where('id', $id)->firstOrFail();
+       
         $mpdf = new \Mpdf\Mpdf;
 
         // Generate a unique random code
@@ -91,6 +76,27 @@ class SuratJalanController extends Controller
         // Output PDF with dynamic filename
         $mpdf->Output($fileName, 'I');
     }
+
+    // public function createPDF($id)
+    // {
+    //     $transaction = transaksi::findOrFail($id); // Ganti dengan model dan method yang sesuai untuk mendapatkan data
+
+    //     $mpdf = new \Mpdf\Mpdf;
+
+    //     $uniqueCode = uniqid();
+
+    //     $html = view('admin.admin-lihatsuratjalan', compact('transaction', 'uniqueCode'))->render();
+
+    //     // Write HTML to PDF
+    //     $mpdf->WriteHTML($html);
+
+    //     $pickupDateFormatted = (new DateTime($transaction->date))->format('Y-m-d');
+    //     $customerName = str_replace([' ', '/'], '_', $transaction->name);
+    //     $fileName = "Surat_Jalan_{$customerName}_{$pickupDateFormatted}.pdf";
+
+    //     // Output PDF with dynamic filename
+    //     $mpdf->Output($fileName, 'I');
+    // }
 
     // SuratJalanController.php
 
