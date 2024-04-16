@@ -55,11 +55,13 @@ class SuratJalanController extends Controller
     public function view_pdf($id)
     {
         $transaction = transaksi::where('id', $id)->firstOrFail();
-       
+        $suratJalan = suratjalan::where('id', $id)->firstOrFail();
+
+
         $mpdf = new \Mpdf\Mpdf;
 
         // Generate a unique random code
-        $uniqueCode = uniqid();
+        $uniqueCode = $suratJalan->kode;
 
         // Render view to HTML, pass the unique code to the view
         $html = view('admin.admin-suratjalan', compact('transaction', 'uniqueCode'))->render();
