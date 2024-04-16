@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('suratjalan', function (Blueprint $table) {
             $table->id();
-            $table->string('kode');
+            $table->string('kode')->unique();
+            $table->string('id_transaksi');
             $table->string('name');
             $table->date('date');
             $table->string('pickup_address');

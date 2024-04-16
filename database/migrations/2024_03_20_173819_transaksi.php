@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
+            $table->string('id_transaksi')->unique();
             $table->string('name');
             $table->date('date');
             $table->string('pickup_address');

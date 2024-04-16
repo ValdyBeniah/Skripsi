@@ -10,6 +10,7 @@ class suratjalan extends Model
     use HasFactory;
     protected $fillable = [
         'kode',
+        'id_transaksi',
         'name',
         'date',
         'pickup_address',

@@ -26,7 +26,13 @@ class SuratJalanController extends Controller
     {
         // Fetch the specific transaction data from the database
         $transaction = transaksi::findOrFail($id); // Gunakan findOrFail untuk menghandle transaksi yang tidak ditemukan
-        $uniqueCode = uniqid();
+        $uniqueCode = $transaction->id_transaksi;
+        $suratJalan = suratjalan::findOrFail($id);
+
+        if ($suratJalan->id_transaksi == $uniqueCode) {
+            $disableBtn =  true;
+            return view('admin.admin-lihatsuratjalan', compact('transaction', 'uniqueCode', 'disableBtn'));
+        }
 
         // Return the view with the transaction data
         return view('admin.admin-lihatsuratjalan', compact('transaction', 'uniqueCode'));
@@ -37,6 +43,7 @@ class SuratJalanController extends Controller
     {
         $suratJalan = new suratjalan();
         $suratJalan->kode = $request->kode;
+        $suratJalan->id_transaksi = $request->id_transaksi;
         $suratJalan->name = $request->name;
         $suratJalan->date = $request->date;
         $suratJalan->pickup_address = $request->pickup_address;

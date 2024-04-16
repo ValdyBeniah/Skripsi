@@ -22,16 +22,16 @@ class transaksiController extends Controller
     {
         $katakunci = $request->katakunci;
         $jumlahbaris = 5;
-        if(strlen($katakunci)){
-            $data = transaksi::where('name','like',"%$katakunci%")
-                    ->orWhere('phone','like',"%$katakunci%")
-                    ->orWhere('pickup_address','like',"%$katakunci%")
-                    ->orWhere('destination_address','like',"%$katakunci%")
-                    ->paginate($jumlahbaris);
-        }else{
-            $data = transaksi::orderBy('id','desc')->paginate($jumlahbaris);
+        if (strlen($katakunci)) {
+            $data = transaksi::where('name', 'like', "%$katakunci%")
+                ->orWhere('phone', 'like', "%$katakunci%")
+                ->orWhere('pickup_address', 'like', "%$katakunci%")
+                ->orWhere('destination_address', 'like', "%$katakunci%")
+                ->paginate($jumlahbaris);
+        } else {
+            $data = transaksi::orderBy('id', 'desc')->paginate($jumlahbaris);
         }
-        
+
         // $kode = suratjalan::all();
         return view('admin.admintransaksi')->with('data', $data);
     }
@@ -48,7 +48,8 @@ class transaksiController extends Controller
         return view('admin.create-admintransaksi', compact('datas', 'jenisData'));
     }
 
-    public function getPickupAddress($id) {
+    public function getPickupAddress($id)
+    {
         $customer = Customer::findOrFail($id);
         return response()->json($customer->pickup_address);
     }
@@ -139,18 +140,19 @@ class transaksiController extends Controller
 
         $data = [
             // 'name'=>$request->nama,
+            'id_transaksi' => uniqid(),
             'name' => $customer->name,
-            'date'=>$request->tanggal,
-            'pickup_address'=>$request->pickup,
-            'destination_address'=>$request->tujuan,
-            'barang'=>$request->barang,
-            'jenis'=>$request->jenis,
-            'truk'=>$request->truk,
-            'weight'=>$request->berat,
-            'phone'=>$request->telp,
+            'date' => $request->tanggal,
+            'pickup_address' => $request->pickup,
+            'destination_address' => $request->tujuan,
+            'barang' => $request->barang,
+            'jenis' => $request->jenis,
+            'truk' => $request->truk,
+            'weight' => $request->berat,
+            'phone' => $request->telp,
             // 'total'=>$request->total,
             'total' => $totalBiaya,
-            'tracking'=>$request->track
+            'tracking' => $request->track
         ];
         transaksi::create($data);
         return redirect()->to('admintransaksi')->with('success', 'Berhasil menambahkan data');
@@ -222,9 +224,9 @@ class transaksiController extends Controller
         $data = transaksi::where('id', $id)->first();
         // $data = transaksi::findOrFail($id);
         return view('admin.edit-admintransaksi')
-                    ->with('data', $data)
-                    ->with('datas', $datas)
-                    ->with('jenisData', $jenisData);
+            ->with('data', $data)
+            ->with('datas', $datas)
+            ->with('jenisData', $jenisData);
     }
 
     /**
@@ -268,23 +270,24 @@ class transaksiController extends Controller
         $totalBiaya = (float) $request->input('total');
 
         $data = [
+            'id_transaksi' => $request->id_transaksi,
             'name' => $customer->name,
             // 'name'=>$request->nama,
-            'date'=>$request->tanggal,
-            'pickup_address'=>$request->pickup,
-            'destination_address'=>$request->tujuan,
-            'barang'=>$request->barang,
-            'jenis'=>$request->jenis,
-            'truk'=>$request->truk,
-            'weight'=>$request->berat,
-            'phone'=>$request->telp,
+            'date' => $request->tanggal,
+            'pickup_address' => $request->pickup,
+            'destination_address' => $request->tujuan,
+            'barang' => $request->barang,
+            'jenis' => $request->jenis,
+            'truk' => $request->truk,
+            'weight' => $request->berat,
+            'phone' => $request->telp,
             // 'total'=>$request->total,
             'total' => $totalBiaya,
             // 'tracking'=>$request->track
         ];
         // $datas = Customer::all();
         // $jenisData = jenis::all();
-        transaksi::where('id',$id)->update($data);
+        transaksi::where('id', $id)->update($data);
         return redirect()->to('admintransaksi')->with('success', 'Berhasil mengupdate data');
     }
 
