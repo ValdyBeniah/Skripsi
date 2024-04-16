@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('suratjalans', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('suratjalan', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_users')->nullable()->index();
         });
     }
 
@@ -26,6 +25,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suratjalans');
+        Schema::table('suratjalan', function (Blueprint $table) {
+            $table->dropForeign(['id_users']);
+            $table->dropColumn('id_users');
+        });
     }
 };

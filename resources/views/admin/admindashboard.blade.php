@@ -92,7 +92,7 @@
                 <div class="card-body">
                   <div class="dashboard1">
                     <h3 class="card-title">{{ $jumlahTruk }}</h3>
-                    <i class="fa fa-money fa-3x" aria-hidden="true"></i>
+                    <i class="fa fa-truck fa-3x" aria-hidden="true"></i>
                   </div>
                 </div>
                 <div class="card-footer border-light" style="text-align: center">

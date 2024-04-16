@@ -54,7 +54,6 @@ class SuratJalanController extends Controller
 
     public function view_pdf($id)
     {
-
         $transaction = transaksi::where('id', $id)->firstOrFail();
        
         $mpdf = new \Mpdf\Mpdf;

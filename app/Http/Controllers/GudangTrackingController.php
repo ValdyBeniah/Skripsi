@@ -21,20 +21,16 @@ class GudangTrackingController extends Controller
         $jumlahbaris = 5; // Jumlah baris per halaman untuk pagination
 
         // Inisialisasi query dengan urutan berdasarkan tanggal
-        $query = transaksi::orderBy('id', 'desc');
-
-        // Jika kata kunci disediakan, tambahkan kondisi where
-        if(strlen($katakunci)) {
-            $query = $query->where(function($q) use ($katakunci) {
-                        $q->where('name', 'like', "%$katakunci%")
-                        ->orWhere('phone', 'like', "%$katakunci%")
-                        ->orWhere('pickup_address', 'like', "%$katakunci%")
-                        ->orWhere('destination_address', 'like', "%$katakunci%");
-                    });
-        } else {
-            $data = $query->paginate($jumlahbaris);
+        if(strlen($katakunci)){
+            $data = transaksi::where('name','like',"%$katakunci%")
+                    ->orWhere('phone','like',"%$katakunci%")
+                    ->orWhere('pickup_address','like',"%$katakunci%")
+                    ->orWhere('destination_address','like',"%$katakunci%")
+                    ->paginate($jumlahbaris);
+        }else{
+            $data = transaksi::orderBy('id','desc')->paginate($jumlahbaris);
         }
-        return view('gudang.gudangtracking', compact('data'));
+        return view('gudang.gudangtracking')->with('data', $data);
     }
 
     /**
