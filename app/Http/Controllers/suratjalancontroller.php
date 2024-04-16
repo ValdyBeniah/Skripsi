@@ -27,7 +27,13 @@ class SuratJalanController extends Controller
         // Fetch the specific transaction data from the database
         $transaction = transaksi::findOrFail($id); // Gunakan findOrFail untuk menghandle transaksi yang tidak ditemukan
         $uniqueCode = $transaction->id_transaksi;
-        $suratJalan = suratjalan::findOrFail($id);
+        $suratJalan = suratjalan::where('id_transaksi', $uniqueCode)->first();
+        $disableBtn = false;
+
+        if (!$suratJalan || $suratJalan->id_transaksi == null) {
+            // Return the view with the transaction data
+            return view('admin.admin-lihatsuratjalan', compact('transaction', 'uniqueCode', 'disableBtn'));
+        }
 
         if ($suratJalan->id_transaksi == $uniqueCode) {
             $disableBtn =  true;
@@ -35,40 +41,50 @@ class SuratJalanController extends Controller
         }
 
         // Return the view with the transaction data
-        return view('admin.admin-lihatsuratjalan', compact('transaction', 'uniqueCode'));
+        return view('admin.admin-lihatsuratjalan', compact('transaction', 'uniqueCode', 'disableBtn'));
     }
     /////
 
     public function save(Request $request)
     {
-        $suratJalan = new suratjalan();
-        $suratJalan->kode = $request->kode;
-        $suratJalan->id_transaksi = $request->id_transaksi;
-        $suratJalan->name = $request->name;
-        $suratJalan->date = $request->date;
-        $suratJalan->pickup_address = $request->pickup_address;
-        $suratJalan->destination_address = $request->destination_address;
-        $suratJalan->barang = $request->barang;
-        $suratJalan->jenis = $request->jenis;
-        $suratJalan->truk = $request->truk;
-        $suratJalan->weight = $request->weight;
-        $suratJalan->phone = $request->phone;
-        $suratJalan->total = $request->total;
+        $transaction = transaksi::where('id_transaksi', $request->kode)->firstOrFail();
+        $suratJalanQuery = suratjalan::where('id_transaksi', $request->kode)->first();
 
-        $suratJalan->save();
-        return redirect()->route('admintransaksi')->with('success', 'Data telah berhasil disimpan ke dalam database.');
+        if (!$suratJalanQuery) {
+            $suratJalan = new suratjalan();
+            $suratJalan->kode = uniqid();
+            $suratJalan->id_transaksi = $request->kode;
+            $suratJalan->name = $request->name;
+            $suratJalan->date = $request->date;
+            $suratJalan->pickup_address = $request->pickup_address;
+            $suratJalan->destination_address = $request->destination_address;
+            $suratJalan->barang = $request->barang;
+            $suratJalan->jenis = $request->jenis;
+            $suratJalan->truk = $request->truk;
+            $suratJalan->weight = $request->weight;
+            $suratJalan->phone = $request->phone;
+            $suratJalan->total = $request->total;
+
+            $suratJalan->save();
+            return redirect()->route('admintransaksi')->with(
+                'success',
+                'Data telah berhasil disimpan ke dalam database.'
+            );
+        }
+
+        if ($suratJalanQuery->id_transaksi == $transaction->id_transaksi) {
+            return redirect()->route('admintransaksi')->with('warning', 'Data telah surat jalan sudah ada.');
+        }
     }
 
     public function view_pdf($id)
     {
         $transaction = transaksi::where('id', $id)->firstOrFail();
-        $suratJalan = suratjalan::where('id', $id)->firstOrFail();
-
 
         $mpdf = new \Mpdf\Mpdf;
 
         // Generate a unique random code
-        $uniqueCode = $suratJalan->kode;
+        $uniqueCode = $transaction->id_transaksi;
 
         // Render view to HTML, pass the unique code to the view
         $html = view('admin.admin-suratjalan', compact('transaction', 'uniqueCode'))->render();
@@ -79,7 +95,7 @@ class SuratJalanController extends Controller
         // Construct the PDF filename
         $pickupDateFormatted = (new DateTime($transaction->date))->format('Y-m-d');
         $customerName = str_replace([' ', '/'], '_', $transaction->name);
-        $fileName = "Surat_Jalan_{$customerName}_{$pickupDateFormatted}.pdf";
+        $fileName = "Surat_Jalan{$customerName}_{$pickupDateFormatted}.pdf";
 
         // Output PDF with dynamic filename
         $mpdf->Output($fileName, 'I');

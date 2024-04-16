@@ -59,6 +59,12 @@
                         {{ Session::get('success') }}
                     </div>
                 </div>
+            @elseif (Session::has('warning'))
+                <div class="pt-3">
+                    <div class="alert alert-warning">
+                        {{ Session::get('warning') }}
+                    </div>
+                </div>
             @endif
             <h2 class="mb-4">Transaksi</h2>
             <!-- FORM PENCARIAN -->
