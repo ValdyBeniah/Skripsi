@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\truk;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
-class TrukSeeder extends Seeder
+class DummyUserSeeder2 extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,14 +18,16 @@ class TrukSeeder extends Seeder
     {
         $userData = [
             [
-                'truk' => 'Fuso',
-                'jumlah' => '20',
-                'harga' => '1000000',
-            ]
+                'name' => 'Supir01',
+                'email' => 'supir01@gmail.com',
+                'role' => 'supir',
+                'password' => bcrypt('12345'),
+                'remember_token' => Str::random(10),
+            ],
             ];
 
             foreach ($userData as $key => $val){
-                truk::create($val);
+                User::create($val);
             }
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 
-class DummyUsersSeeder extends Seeder
+class DummyUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.

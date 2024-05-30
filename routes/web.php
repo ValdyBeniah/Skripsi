@@ -11,10 +11,17 @@ use App\Http\Controllers\GudangBarangController;
 use App\Http\Controllers\GudangDashboardController;
 use App\Http\Controllers\GudangProfileController;
 use App\Http\Controllers\GudangTrackingController;
+use App\Http\Controllers\Password;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Register;
 use App\Http\Controllers\SesiController;
+use App\Http\Controllers\supircontroller;
+use App\Http\Controllers\supirdashboard;
+use App\Http\Controllers\SupirProfile;
+use App\Http\Controllers\SupirTransaksi;
 use App\Http\Controllers\suratjalancontroller;
 use App\Http\Controllers\transaksiController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,8 +53,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index']);
     Route::get('/admin/admin', [AdminController::class, 'admin'])->middleware('userAkses:admin');
     Route::get('/admin/gudang', [AdminController::class, 'gudang'])->middleware('userAkses:gudang');
+    Route::get('/admin/supir', [AdminController::class, 'supir']);
     Route::get('/logout', [SesiController::class, 'logout']);
 });
+
+// Route::resource('/changepassword', Password::class);
+
+Route::get('/changepassword', [Password::class, 'index'])->name('password.change');
+Route::post('/password/update', [Password::class, 'changePassword'])->name('password.update');
+
+Route::get('/register', [Register::class, 'index']);
+Route::post('/register', [Register::class, 'register'])->name('register');
+
 
 //Dashboard Admin
 Route::resource('/admindashboard', AdminDashboardController::class);
@@ -60,7 +77,11 @@ Route::resource('/adminprofile', AdminProfileController::class);
 Route::resource('/admintransaksi', transaksiController::class);
 Route::get('/form-transaksi', [transaksiController::class, 'create']);
 Route::get('/customer/{id}/pickup', [TransaksiController::class, 'getPickupAddress']);
+Route::get('/supir/{id}/plat', [TransaksiController::class, 'getPlat']);
 Route::post('transaksi/{id}/complete', [TransaksiController::class, 'complete']);
+Route::post('transaksi/hide/{id}', [TransaksiController::class, 'hide'])->name('transaksi.hide');
+Route::post('transaksi/unhide/{id}', [TransaksiController::class, 'unhide'])->name('transaksi.unhide');
+
 
 //Report Admin
 Route::resource('/adminreport', AdminReportController::class);
@@ -80,6 +101,10 @@ Route::post('/simpan-suratjalan', [SuratJalanController::class, 'simpan'])->name
 Route::resource('/admincustomer', CustomerController::class);
 Route::get('/form-customer', [CustomerController::class, 'create']);
 
+Route::resource('/adminuser', UsersController::class);
+// Route::get('adminuser/{id}/edit', [UsersController::class, 'edit']);
+// Route::post('/form-customer/{id}', [CustomerController::class, 'update']);
+
 //Dashboard Gudang
 Route::resource('/gudangdashboard', GudangDashboardController::class);
 
@@ -89,10 +114,25 @@ Route::resource('/gudangprofile', GudangProfileController::class);
 //Barang Gudang
 Route::resource('/gudangbarang', GudangBarangController::class);
 
+//Supir Gudang
+Route::resource('/gudangsupir', supircontroller::class);
+Route::get('/tambahsupir', [supircontroller::class, 'create']);
+
 //Tracking Gudang
 Route::resource('/gudangtracking', GudangTrackingController::class);
 Route::post('tracking/{id}/complete', [GudangTrackingController::class, 'complete']);
 // Route::get('/hasiltracking', GudangTrackingController::class, 'index');
+
+//Supir dashboard
+Route::resource('/supirdashboard', supirdashboard::class);
+
+//Supir Profile
+Route::resource('/supirprofile', SupirProfile::class);
+
+//Supir Transaksi
+Route::resource('/supirtransaksi', SupirTransaksi::class);
+Route::post('/supirtransaksi/upload', [SupirTransaksi::class, 'upload']);
+
 
 Route::get('/admin/admindashboard', function () {
     return view('admin.admindashboard');

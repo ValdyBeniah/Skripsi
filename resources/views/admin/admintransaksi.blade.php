@@ -12,6 +12,16 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href={{ asset('css/style.css') }}>
+    <style>
+        .hidden-row {
+            filter: blur(4px);
+            pointer-events: none;
+        }
+
+        .hidden-row .btn-unhide {
+            pointer-events: auto; /* Pastikan tombol Unhide bisa diklik */
+        }
+    </style>
 </head>
 
 <body>
@@ -44,6 +54,9 @@
                     </li>
                     <li>
                         <a href="{{ url('admincustomer') }}" data-toggle="collapse" aria-expanded="false">Customers</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('adminuser') }}" data-toggle="collapse" aria-expanded="false">Users</a>
                     </li>
                     <li>
                         <a href="/logout">Logout</a>
@@ -101,6 +114,8 @@
                         <th scope="col">Barang</th>
                         <th scope="col">Jenis</th>
                         <th scope="col">Truk</th>
+                        <th scope="col">Supir</th>
+                        <th scope="col">Plat</th>
                         <th scope="col">Berat</th>
                         <th scope="col">Tracking</th>
                         {{-- <th scope="col">No Telp</th> --}}
@@ -111,7 +126,7 @@
                 <tbody>
                     <?php $i = $data->firstItem(); ?>
                     @foreach ($data as $item)
-                        <tr>
+                        <tr class="{{ $item->is_hidden ? 'hidden-row' : '' }}">
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->date }}</td>
@@ -120,6 +135,8 @@
                             <td>{{ $item->barang }}</td>
                             <td>{{ $item->jenis }}</td>
                             <td>{{ $item->truk }}</td>
+                            <td>{{ $item->supir }}</td>
+                            <td>{{ $item->plat }}</td>
                             <td>{{ $item->weight }} Kg</td>
                             <td>{{ $item->tracking }}</td>
                             {{-- <td>{{ $item->phone }}</td> --}}
@@ -128,35 +145,28 @@
                             <td>
                                 <div class="d-flex flex-column justify-content-start">
                                     <div class="d-flex justify-content-start mb-2">
-                                        <a href='{{ url('transaksi/' . $item->id . '/edit') }}'
-                                            class="btn btn-warning btn-sm me-2">
-                                            Edit
-                                        </a>
-                                        {{-- <form action="{{ url('transaksi/'.$item->id.'/complete') }}" method="post" class="me-2">
-                              @csrf
-                              <button class="btn btn-success btn-sm" type="submit" {{ $item->is_completed ? 'disabled' : '' }}>Selesai</button>
-                          </form> --}}
-                                        <form onsubmit="return confirm('Apakah anda yakin ingin menghapus data ini?')"
-                                            action="{{ url('transaksi/' . $item->id) }}" method="post">
+                                        <a href='{{ url('transaksi/' . $item->id . '/edit') }}' class="btn btn-warning btn-sm me-2">Edit</a>
+                                        @if ($item->is_hidden)
+                                        <form action="{{ url('transaksi/unhide', $item->id) }}" method="POST">
                                             @csrf
-                                            @method('DELETE')
-                                            <button name="submit" class="btn btn-danger btn-sm" type="submit">
-                                                Delete
-                                            </button>
+                                            <button type="submit" class="btn btn-warning btn-sm me-2 btn-unhide">Unhide</button>
                                         </form>
+                                        @else
+                                        <form action="{{ url('transaksi/hide', $item->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning btn-sm me-2">Hide</button>
+                                        </form>
+                                        @endif
                                     </div>
-                                    <button type="button" id="tombolSuratJalan" class="btn btn-primary"
-                                        data-bs-toggle="modal" data-bs-target="#modalAdminTransaksi">
-                                        {{-- <a href="{{ url('suratjalan/view/pdf', ['id' => $item->id]) }}" style="color: white;"> --}}
-                                        <a href="{{ url('suratjalan/view/pdf', ['id' => $item->id]) }}"
-                                            style="color: white;" target="_blank">
+                                    <button id="btnSimpan-{{ $item->id }}" class="btn btn-success btnSimpan mb-2" data-id="{{ $item->id }}">
+                                        Lihat
+                                    </button>
+                                    <button type="button" id="tombolSuratJalan" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#modalAdminTransaksi">
+                                        <a href="{{ url('suratjalan/view/pdf', ['id' => $item->id]) }}" style="color: white;" target="_blank">
                                             <i class="fa fa-file-text" aria-hidden="true"></i>
                                             Surat Jalan
                                         </a>
-                                    </button><br>
-                                    <button id="btnSimpan-{{ $item->id }}" class="btn btn-success btnSimpan"
-                                        data-id="{{ $item->id }}">
-                                        Lihat
                                     </button>
                                 </div>
                             </td>

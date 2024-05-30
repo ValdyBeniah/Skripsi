@@ -23,7 +23,7 @@ class CustomerController extends Controller
                     ->orWhere('pickup_address','like',"%$katakunci%")
                     ->paginate($jumlahbaris);
         }else{
-            $data = customer::orderBy('id','desc')->paginate($jumlahbaris);
+            $data = customer::orderBy('id','asc')->paginate($jumlahbaris);
         }
         return view('admin.admincustomer')->with('data', $data);
     }

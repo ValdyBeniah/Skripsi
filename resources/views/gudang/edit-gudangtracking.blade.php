@@ -91,8 +91,8 @@
         <div class="col-sm-10">
             <select class="form-control" name="track" id="track">
                 <option value="on progress" {{ $data->tracking == 'On progress' ? 'selected' : '' }}>On Progress</option>
-                <option value="delivery" {{ $data->tracking == 'Delivery' ? 'selected' : '' }}>Delivery</option>
-                <option value="finish" {{ $data->tracking == 'Finish' ? 'selected' : '' }}>Finish</option>
+                <option value="delivery by driver" {{ $data->tracking == 'Delivery by Driver' ? 'selected' : '' }}>Delivery by Driver</option>
+                <option value="complete" {{ $data->tracking == 'Complete' ? 'selected' : '' }}>Complete</option>
             </select>
         </div>
     </div>

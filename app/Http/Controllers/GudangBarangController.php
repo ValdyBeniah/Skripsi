@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\gudangbarang;
+use App\Models\supir;
 use App\Models\truk;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,7 @@ class GudangBarangController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -76,6 +77,7 @@ class GudangBarangController extends Controller
         $data = [
             'jumlah'=>$request->jumlah,
         ];
+
         truk::where('id',$id)->update($data);
         return redirect()->to('gudangbarang')->with('success', 'Berhasil mengupdate data');
     }
@@ -86,8 +88,8 @@ class GudangBarangController extends Controller
      * @param  \App\Models\gudangbarang  $gudangbarang
      * @return \Illuminate\Http\Response
      */
-    public function destroy(gudangbarang $gudangbarang)
+    public function destroy($id)
     {
-        //
+
     }
 }

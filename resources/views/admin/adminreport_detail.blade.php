@@ -40,6 +40,9 @@
             <li>
                 <a href="{{ url('admincustomer') }}" data-toggle="collapse" aria-expanded="false">Customers</a>
             </li>
+            <li>
+              <a href="{{ url('adminuser') }}" data-toggle="collapse" aria-expanded="false">Users</a>
+            </li>
 	          <li>
 	              <a href="/logout">Logout</a>
 	          </li>
@@ -50,7 +53,7 @@
         <div id="content" class="p-4 p-md-5 pt-5">
             <h2 class="mb-2">Detail Transaksi untuk Tanggal: {{ $date }}</h2>
             <a href="{{ url('adminreport') }}" class="btn btn-secondary"><< Back</a>
-            @foreach ($transaksiDetail as $transaksi)
+            {{-- @foreach ($transaksiDetail as $transaksi) --}}
             <br><br>
             <table class="table">
                 <thead>
@@ -69,7 +72,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($transaksiDetail as $transaksi) --}}
+                    @foreach ($transaksiDetail as $transaksi)
                     <tr>
                         <td>{{ $transaksi->id }}</td>
                         <td>{{ $transaksi->name }}</td>

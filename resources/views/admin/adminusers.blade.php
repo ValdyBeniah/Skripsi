@@ -59,22 +59,14 @@
               </div>
             </div>
         @endif
-        <h2 class="mb-4">Customer</h2>
+        <h2 class="mb-4">Users</h2>
         <!-- FORM PENCARIAN -->
         <div class="pb-3">
-          <form class="d-flex" action="{{ url('admincustomer') }}" method="get">
+          <form class="d-flex" action="{{ url('adminuser') }}" method="get">
               <input class="form-control me-1" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Masukkan kata kunci" aria-label="Search">
               <button class="btn btn-secondary" type="submit">Cari</button>
           </form>
         </div>
-        {{-- <button class="btn btn-primary btn-sm me-2" type="button"><i class="fa fa-plus" aria-hidden="true"></i>Invoice</button><br><br> --}}
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdminTransaksi">
-          <a href="{{ url('form-customer') }}" style="color: white;">
-              <i class="fa fa-plus" aria-hidden="true"></i>
-              Tambah Data
-          </a>
-      </button>
 
         <br><br>
         <table class="table caption-top">
@@ -82,28 +74,28 @@
             <tr>
               <th scope="col">No</th>
               <th scope="col">Nama</th>
-              <th scope="col">Alamat</th>
-              <th scope="col">No Telp</th>
+              <th scope="col">Email</th>
+              <th scope="col">Role</th>
               <th scope="col">#</th>
             </tr>
           </thead>
           <tbody>
-            <?php $i = $data->firstItem() ?>
+            <?php $i = $data->firstItem(); ?>
             @foreach ($data as $index => $item)
                 <tr>
                   <td>{{ $index + 1 }}</td>
                   <td>{{ $item->name }}</td>
-                  <td>{{ $item->pickup_address }}</td>
-                  <td>{{ $item->phone }}</td>
+                  <td>{{ $item->email }}</td>
+                  <td>{{ $item->role }}</td>
                   <td class="btn">
                     <div class="d-grid gap-2 gap-md-3 d-md-flex justify-content-start">
                       <button class="btn btn-primary btn-sm me-2" type="button">
-                        <a href='{{ url('admincustomer/'.$item->id.'/edit') }}' style="color: white;">
+                        <a href='{{ url('adminuser/'.$item->id.'/edit') }}' style="color: white;">
                           Edit
                         </a>
                       </button>
                       <form onsubmit="return confirm('Apakah anda yakin ingin menghapus data ini?')"
-                        action="{{ url('admincustomer/'.$item->id) }}" method="post">
+                        action="{{ url('adminuser/'.$item->id) }}" method="post">
                         @csrf
                         @method('DELETE')
                         <button name="submit" class="btn btn-danger btn-sm" type="submit">
@@ -113,11 +105,12 @@
                     </div>
                   </td>
                 </tr>
-            <?php $i++ ?>
+                <?php $i++; ?>
             @endforeach
           </tbody>
         </table>
         {{ $data->withQueryString()->links() }}
+        {{-- {{ $data->withQueryString()->links() }} --}}
       </div>
 		</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

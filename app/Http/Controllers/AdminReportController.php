@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 
 class AdminReportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $reports = transaksi::selectRaw('date, COUNT(*) as jumlah_transaksi, SUM(total) as total_transaksi')
-                         ->groupBy('date')
-                         ->get();
+        $query = transaksi::selectRaw('date, COUNT(*) as jumlah_transaksi, SUM(total) as total_transaksi')
+                        ->groupBy('date');
+
+        if ($request->has('katakunci')) {
+            $katakunci = $request->get('katakunci');
+            $query->where('date', 'like', "%{$katakunci}%");
+        }
+
+        $reports = $query->get();
+
         return view('admin.adminreport', compact('reports'));
     }
 

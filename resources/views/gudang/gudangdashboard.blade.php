@@ -35,6 +35,9 @@
                       <a href="{{ url('gudangbarang') }}" data-toggle="collapse" aria-expanded="false">Truk</a>
                   </li>
                   <li>
+                    <a href="{{ url('gudangsupir') }}" data-toggle="collapse" aria-expanded="false">Supir</a>
+                  </li>
+                  <li>
                       <a href="{{ url('gudangtracking') }}" data-toggle="collapse" aria-expanded="false">Tracking</a>
                   </li>
                   <li>
@@ -46,6 +49,101 @@
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5">
         <h2 class="mb-4">Welcome to Gudang Dashboard</h2>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card mb-3" style="max-width: 100%;">
+                <div class="row g-0">
+                  <div class="col-md-12">
+                    <div class="card-body">
+                      <h5 class="card-title">Welcome Back</h5>
+                      @if (Auth::check())
+                        <p class="card-text">Welcome back to dashboard <b>{{ Auth::user()->name }}</b></p>
+                      @endif
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card mb-3" style="max-width: 100%;">
+                <div class="row g-0">
+                  <div class="col-md-12">
+                    <div class="card-body">
+                      <h5 class="card-title">Total Truk</h5>
+                        <p class="card-text"><b>{{ $jumlahTruk }}</b></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-3" style="max-width: 100%;">
+                <div class="row g-0">
+                  <div class="col-md-12">
+                    <div class="card-body">
+                      <h5 class="card-title">On Progress</h5><hr><br>
+                      <div class="dashboard1">
+                        <h3 class="card-text">{{ $onProgressCount }}</h3>
+                        <i class="fa fa-spinner fa-3x" aria-hidden="true"></i><br><br><br>
+                      </div><hr>
+                      <div style="text-align: center">
+                        <i class="fa fa-info" aria-hidden="true" style="margin-right: 3px;"></i>
+                        <a href="{{ url('gudangtracking') }}" style="color:black">
+                          More info
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-3" style="max-width: 100%;">
+                <div class="row g-0">
+                  <div class="col-md-12">
+                    <div class="card-body">
+                      <h5 class="card-title">Delivery by Driver</h5><hr><br>
+                      <div class="dashboard1">
+                        <h3 class="card-text">{{ $deliveryByDriverCount }}</h3>
+                        <i class="fa fa-truck fa-3x" aria-hidden="true"></i><br><br><br>
+                      </div><hr>
+                      <div style="text-align: center">
+                        <i class="fa fa-info" aria-hidden="true" style="margin-right: 3px;"></i>
+                        <a href="{{ url('gudangtracking') }}" style="color:black">
+                          More info
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-3" style="max-width: 100%;">
+                <div class="row g-0">
+                  <div class="col-md-12">
+                    <div class="card-body">
+                      <h5 class="card-title">Complete</h5><hr><br>
+                      <div class="dashboard1">
+                        <h3 class="card-text">{{ $completeCount }}</h3>
+                        <i class="fa fa-check-circle fa-3x" aria-hidden="true"></i><br><br><br>
+                      </div><hr>
+                      <div style="text-align: center">
+                        <i class="fa fa-info" aria-hidden="true" style="margin-right: 3px;"></i>
+                        <a href="{{ url('gudangtracking') }}" style="color:black">
+                          More info
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!---->
+          </div>
+          </div>
+        </div>
       </div>
 		</div>
 

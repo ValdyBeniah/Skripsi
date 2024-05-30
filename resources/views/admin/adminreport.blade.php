@@ -40,6 +40,9 @@
             <li>
                 <a href="{{ url('admincustomer') }}" data-toggle="collapse" aria-expanded="false">Customers</a>
             </li>
+            <li>
+              <a href="{{ url('adminuser') }}" data-toggle="collapse" aria-expanded="false">Users</a>
+            </li>
 	          <li>
 	              <a href="/logout">Logout</a>
 	          </li>
@@ -49,6 +52,14 @@
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5">
         <h2 class="mb-4">Report</h2>
+        <!-- FORM PENCARIAN -->
+        <div class="pb-3">
+          <form class="d-flex" action="{{ url('adminreport') }}" method="get">
+              <input class="form-control me-1" type="search" name="katakunci"
+                  value="{{ Request::get('katakunci') }}" placeholder="Masukkan kata kunci" aria-label="Search">
+              <button class="btn btn-secondary" type="submit">Cari</button>
+          </form>
+        </div>
         <table class="table caption-top">
           <thead>
             <tr>

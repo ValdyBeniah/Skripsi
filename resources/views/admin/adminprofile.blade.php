@@ -40,6 +40,9 @@
             <li>
                 <a href="{{ url('admincustomer') }}" data-toggle="collapse" aria-expanded="false">Customers</a>
             </li>
+            <li>
+              <a href="{{ url('adminuser') }}" data-toggle="collapse" aria-expanded="false">Users</a>
+            </li>
 	          <li>
 	              <a href="/logout">Logout</a>
 	          </li>

@@ -79,7 +79,10 @@
 <body>
     <div class="d-flex justify-content-center">
         <div class="my-3 p-3 bg-body rounded shadow-sm text-left" style="width: 80%; margin: auto;">
-            <h1 class="mb-4">Surat Jalan</h1>
+            <h1 class="mb-4">PT Kesuma Express</h1>
+            <p style="text-align: center">JI. Ir Soekarno-hatta
+                Tanjung Karang Timur Bandar Lampung 35121, Kedamaian, Bandar Lampung City, Lampung
+                35121</p>
             <div class="container mt-5">
                 <table class="table table-light">
                     <tbody>
@@ -124,10 +127,10 @@
                             <td>No Telpon</td>
                             <td>{{$transaction->phone}}</td>
                         </tr>
-                        <tr class="border-top">
+                        {{-- <tr class="border-top">
                             <td><strong>Total</strong></td>
                             <td><strong>Rp {{ number_format($transaction->total, 0, ',', '.') }}</strong></td>
-                        </tr>
+                        </tr> --}}
                         {{-- @endforeach --}}
                     </tbody>
                 </table>

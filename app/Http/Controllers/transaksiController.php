@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\jenis;
+use App\Models\supir;
 use App\Models\suratjalan;
 use App\Models\truk;
 use App\Models\transaksi;
@@ -45,7 +46,36 @@ class transaksiController extends Controller
     {
         $datas = Customer::all();
         $jenisData = jenis::all();
-        return view('admin.create-admintransaksi', compact('datas', 'jenisData'));
+        $supir = supir::all();
+        $usedSupirNames = transaksi::where('is_completed', false)->pluck('supir')->toArray();
+        return view('admin.create-admintransaksi', compact('datas', 'jenisData', 'supir', 'usedSupirNames'));
+    }
+
+    // public function hide($id)
+    // {
+    //     $transaksi = transaksi::findOrFail($id);
+    //     $transaksi->is_hidden = true;
+    //     $transaksi->save();
+
+    //     return response()->json(['success' => 'Transaksi berhasil di-hide']);
+    // }
+
+    public function hide($id)
+    {
+        $transaksi = transaksi::findOrFail($id);
+        $transaksi->is_hidden = 1;
+        $transaksi->save();
+
+        return redirect()->back()->with('success', 'Transaksi berhasil disembunyikan.');
+    }
+
+    public function unhide($id)
+    {
+        $transaksi = transaksi::findOrFail($id);
+        $transaksi->is_hidden = 0;
+        $transaksi->save();
+
+        return redirect()->back()->with('success', 'Transaksi berhasil ditampilkan kembali.');
     }
 
     public function getPickupAddress($id)
@@ -53,6 +83,13 @@ class transaksiController extends Controller
         $customer = Customer::findOrFail($id);
         return response()->json($customer->pickup_address);
     }
+
+    public function getPlat($id)
+    {
+        $supir = supir::findOrFail($id);
+        return response()->json($supir->plat);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -71,9 +108,12 @@ class transaksiController extends Controller
         Session::flash('barang', $request->barang);
         Session::flash('jenis', $request->jenis);
         Session::flash('truk', $request->truk);
+        Session::flash('supir', $request->supir);
+        Session::flash('plat', $request->plat);
         Session::flash('weight', $request->berat);
         Session::flash('phone', $request->telp);
         Session::flash('total', $request->total);
+        $request->merge(['track' => $request->track ?? 'New Transaction']);
         Session::flash('tracking', $request->track);
 
         $request->validate([
@@ -84,6 +124,8 @@ class transaksiController extends Controller
             'barang' => 'required',
             'jenis' => 'required',
             'truk' => 'required',
+            'supir' => 'required',
+            'plat' => 'required',
             'berat' => 'required',
             'telp' => 'required',
             'total' => 'required|numeric',
@@ -148,6 +190,8 @@ class transaksiController extends Controller
             'barang' => $request->barang,
             'jenis' => $request->jenis,
             'truk' => $request->truk,
+            'supir' => $request->supir,
+            'plat' => $request->plat,
             'weight' => $request->berat,
             'phone' => $request->telp,
             // 'total'=>$request->total,
@@ -222,11 +266,15 @@ class transaksiController extends Controller
         $datas = Customer::all();
         $jenisData = jenis::all();
         $data = transaksi::where('id', $id)->first();
+        $supir = supir::all();
+        $usedSupirIds = transaksi::where('is_completed', false)->pluck('supir')->toArray();
         // $data = transaksi::findOrFail($id);
         return view('admin.edit-admintransaksi')
             ->with('data', $data)
             ->with('datas', $datas)
-            ->with('jenisData', $jenisData);
+            ->with('jenisData', $jenisData)
+            ->with('supir', $supir)
+            ->with('usedSupirIds', $usedSupirIds);
     }
 
     /**
@@ -245,6 +293,8 @@ class transaksiController extends Controller
             'tujuan' => 'required',
             'barang' => 'required',
             'jenis' => 'required',
+            'supir' => 'required',
+            'plat' => 'required',
             'truk' => 'required',
             'berat' => 'required',
             'telp' => 'required',
@@ -270,7 +320,7 @@ class transaksiController extends Controller
         $totalBiaya = (float) $request->input('total');
 
         $data = [
-            'id_transaksi' => $request->id_transaksi,
+            // 'id_transaksi' => $request->id_transaksi,
             'name' => $customer->name,
             // 'name'=>$request->nama,
             'date' => $request->tanggal,
@@ -279,6 +329,8 @@ class transaksiController extends Controller
             'barang' => $request->barang,
             'jenis' => $request->jenis,
             'truk' => $request->truk,
+            'supir' => $request->supir,
+            'plat' => $request->plat,
             'weight' => $request->berat,
             'phone' => $request->telp,
             // 'total'=>$request->total,

@@ -17,11 +17,18 @@ class transaksi extends Model
         'barang',
         'jenis',
         'truk',
+        'supir',
+        'plat',
         'weight',
         'phone',
         'total',
-        'tracking'
+        'tracking',
     ];
     protected $table = 'transaksi';
     public $timestamps = false;
+
+    public function bukti()
+    {
+        return $this->hasOne(Bukti::class, 'id');
+    }
 }

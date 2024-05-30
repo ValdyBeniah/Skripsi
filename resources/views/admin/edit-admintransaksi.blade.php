@@ -94,8 +94,25 @@
                 <input type="text" class="form-control" name='truk' value="{{ $data->truk }}" id="truk">
             </div>
           </div>
+          <div class="mb-3 row">
+            <label for="supir" class="col-sm-2 col-form-label">Supir</label>
+            <div class="col-sm-10">
+                <select name="supir" id="supir" class="form-control" onchange="updatePlat()">
+                    <option value="">---</option>
+                    @foreach($supir as $item)
+                        <option value="{{ $item->id }}" data-supir="{{ $item->plat }}">{{ $item->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="plat" class="col-sm-2 col-form-label">Plat</label>
+            <div class="col-sm-10">
+                <input type="plat" class="form-control" name='plat' id="plat">
+            </div>
+          </div>
         <div class="mb-3 row">
-          <label for="berat" class="col-sm-2 col-form-label">Berat</label>
+          <label for="berat" class="col-sm-2 col-form-label">Berat (KG)</label>
           <div class="col-sm-10">
               <input type="text" class="form-control" name='berat' value="{{ $data->weight }}" id="berat">
           </div>
@@ -133,37 +150,23 @@
         $(document).ready(function() {
             function calculateTotal() {
                 let berat = parseFloat($('#berat').val()) || 0;
-                let jumlahTruk = parseFloat($('#truk').val()) || 0;
                 let jenisHarga = $('#jenis').find(':selected').data('harga') || 0;
-                let hargaTruk = 1000000; // Ganti dengan harga truk dari database jika perlu
-
-                // Debugging - Cek nilai yang didapatkan
-                console.log("Berat: " + berat);
-                console.log("Jumlah Truk: " + jumlahTruk);
-                console.log("Harga per Jenis: " + jenisHarga);
-                console.log("Harga Truk per unit: " + hargaTruk);
 
                 let totalJenis = berat * jenisHarga;
-                let totalTruk = jumlahTruk * hargaTruk; // Memastikan ini dihitung
 
-                // Debugging - Cek perhitungan
-                console.log("Total Jenis: " + totalJenis);
-                console.log("Total Truk: " + totalTruk);
-
-                var total = totalJenis + totalTruk;
-                // var totalRounded = Math.round(total);
-                // console.log("Total rounded:", totalRounded);
-                // $('#total').val(totalRounded.toString());
-
-                // $('#total').val(Math.round(total));
-                $('#total').val(total.toFixed(2));
+                var total = totalJenis;
+                $('#total').val(total.toString());
             }
-
-            // Pastikan event handler terpasang pada elemen yang benar
             $('#jenis, #berat, #truk').change(calculateTotal).keyup(calculateTotal);
 
-            // Jalankan perhitungan ketika halaman dimuat jika ada nilai default
             calculateTotal();
+
+            // Validasi input angka
+            function validateNumberInput(event) {
+                event.target.value = event.target.value.replace(/[^0-9]/g, '');
+            }
+
+            $('#truk, #berat, #telp').on('input', validateNumberInput);
         });
 
         function updatePickupAddress() {
@@ -185,6 +188,28 @@
                     });
             } else {
                 pickupInput.value = ''; // Clear the pickup address if no customer is selected
+            }
+        }
+
+        function updatePlat() {
+            var supirSelect = document.getElementById('supir');
+            var supirId = supirSelect.value;
+            var platInput = document.getElementById('plat');
+            var selectedOption = supirSelect.options[supirSelect.selectedIndex];
+            var supirname = selectedOption.getAttribute('data-supir');
+            platInput.value = supirname;
+
+            if (supirId) {
+                fetch(`/supir/${supirId}/plat`)
+                    .then(response => response.json())
+                    .then(supirname => {
+                        platInput.value = supirname;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            } else {
+                platInput.value = '';
             }
         }
     </script>

@@ -100,29 +100,80 @@
             <div class="container mt-5">
                 <form action="{{ url('savesuratjalan/') }}" method="POST">
                     @csrf
-                    <input type="text" name="kode" value="{{ $uniqueCode }}">
-                    <input type="text" name="name" value="{{ $transaction->name }}">
-                    <input type="text" name="date" value="{{ $transaction->date }}">
-                    <input type="text" name="pickup_address" value="{{ $transaction->pickup_address }}">
-                    <input type="text" name="destination_address" value="{{ $transaction->destination_address }}">
-                    <input type="text" name="barang" value="{{ $transaction->barang }}">
-                    <input type="text" name="jenis" value="{{ $transaction->jenis }}">
-                    <input type="text" name="truk" value="{{ $transaction->truk }}">
-                    <input type="text" name="weight" value="{{ $transaction->weight }}">
-                    <input type="text" name="phone" value="{{ $transaction->phone }}">
-                    <input type="text" name="total" value="{{ $transaction->total }}">
-                    @if (!$disableBtn)
-                        <button type="submit" class="btn btn-primary">Simpan ke Database</button>
-                    @elseif($disableBtn)
-                        <button type="submit" disabled class="btn btn-primary">Simpan ke Database</button>
-                    @endif
-                    {{-- <a href="{{ route('transaksi.showPDF', $transaction->id) }}" target="_blank" class="btn btn-primary">Generate PDF</a> --}}
+                    <div class="my-3 p-3 bg-body rounded shadow-sm">
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">Kode</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="kode" name="kode" value="{{ $uniqueCode }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">Nama</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name" name="name" value="{{ $transaction->name }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">Tanggal</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="date" name="date" value="{{ $transaction->date }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">Alamat Penjemputan</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="pickup_address" name="pickup_address" value="{{ $transaction->pickup_address }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">Alamat Tujuan</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="destination_address" name="destination_address" value="{{ $transaction->destination_address }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">Barang</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="barang" name="barang" value="{{ $transaction->barang }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">Jenis Barang</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="jenis" name="jenis" value="{{ $transaction->jenis }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">Truk</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="truk" name="truk" value="{{ $transaction->truk }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">Berat</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="weight" name="weight" value="{{ $transaction->weight }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">No Telepon</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="phone" name="phone" value="{{ $transaction->phone }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="nama" class="col-sm-2 col-form-label">Total</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="total" name="total" value="{{ $transaction->total }}">
+                            </div>
+                        </div>
+                        @if (!$disableBtn)
+                            <button type="submit" class="btn btn-primary">Simpan ke Database</button>
+                        @elseif($disableBtn)
+                            <button type="submit" disabled class="btn btn-primary">Simpan ke Database</button>
+                        @endif
+                    </div>
                 </form>
-                {{-- <div class="modal-footer">
-                    <a href="{{ url('admintransaksi') }}" class="btn btn-secondary"><< Back</a>
-                    <a href="{{ url('suratjalan/view/pdf') }}" class="btn btn-primary">Check</a>
-                    <a href="{{ url('suratjalan/downlaod/pdf') }}" class="btn btn-danger">Cetak</a>
-                </div> --}}
             </div>
         </div>
     </div>

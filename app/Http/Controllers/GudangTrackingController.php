@@ -94,7 +94,7 @@ class GudangTrackingController extends Controller
         $transaction->save();
 
         //Mengubah status menjadi finish jika button selesai ditekan
-        $transaction->update(['tracking' => 'finish']);
+        $transaction->update(['tracking' => 'complete']);
 
         // Retrieve the truck record from the database.
         $truckRecord = truk::first();
@@ -104,11 +104,7 @@ class GudangTrackingController extends Controller
             // Save the updated truck record.
             $truckRecord->save();
 
-            // Optionally, you can also mark the transaction as completed in some way
-            // e.g., $transaction->status = 'completed';
-            // $transaction->save();
-
-            return redirect()->to('gudangtracking')->with('success', 'Truck count has been updated.');
+            return redirect()->to('gudangtracking')->with('success', 'Transaksi telah selesai.');
         } else {
             return back()->withError('Truck record not found.')->withInput();
         }
@@ -147,23 +143,9 @@ class GudangTrackingController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            // 'nama' => 'required',
-            // 'tanggal' => 'required',
-            // 'pickup' => 'required',
-            // 'tujuan' => 'required',
-            // 'berat' => 'required',
-            // 'telp' => 'required',
-            // 'total' => 'required',
             'track' => 'required',
         ]);
         $data = [
-            // 'name'=>$request->nama,
-            // 'date'=>$request->tanggal,
-            // 'pickup_address'=>$request->pickup,
-            // 'destination_address'=>$request->tujuan,
-            // 'weight'=>$request->berat,
-            // 'phone'=>$request->telp,
-            // 'total'=>$request->total,
             'tracking'=>$request->track
         ];
         transaksi::where('id',$id)->update($data);
