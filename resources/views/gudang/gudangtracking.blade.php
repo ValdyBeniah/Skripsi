@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <title>PT Kesuma Express</title>
     <meta charset="utf-8">
@@ -9,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href={{ asset('css/style.css') }}>
     <script src="https://use.fontawesome.com/0c7a3095b5.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <style>
         body {
             background-color: #FEFBF6;
@@ -22,6 +23,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar">
@@ -39,7 +41,8 @@
                 <hr>
                 <ul class="list-unstyled components mb-5">
                     <li>
-                        <a href="{{ url('gudangdashboard' )}}" data-toggle="collapse" aria-expanded="false">Dashboard</a>
+                        <a href="{{ url('gudangdashboard') }}" data-toggle="collapse"
+                            aria-expanded="false">Dashboard</a>
                     </li>
                     <li>
                         <a href="{{ url('gudangprofile') }}" data-toggle="collapse" aria-expanded="false">Profile</a>
@@ -73,7 +76,8 @@
             <!-- FORM PENCARIAN -->
             <div class="pb-3">
                 <form class="d-flex" action="{{ url('gudangtracking') }}" method="get">
-                    <input class="form-control me-1" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Masukkan kata kunci" aria-label="Search">
+                    <input class="form-control me-1" type="search" name="katakunci"
+                        value="{{ Request::get('katakunci') }}" placeholder="Masukkan kata kunci" aria-label="Search">
                     <button class="btn btn-secondary" type="submit">Cari</button>
                 </form>
             </div>
@@ -97,7 +101,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data as $item)
+                    @foreach ($data as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->name }}</td>
@@ -113,12 +117,16 @@
                             <td>{{ $item->tracking }}</td>
                             <td class="btn">
                                 <div class="d-grid gap-2 gap-md-3 d-md-flex justify-content-start">
-                                    <button class="btn btn-warning btn-sm me-2" type="button" style="margin-right: 3px;">
-                                        <a href='{{ url('gudangtracking/'.$item->id.'/edit') }}' style="color: white;">Edit</a>
+                                    <button class="btn btn-warning btn-sm me-2" type="button"
+                                        style="margin-right: 3px;">
+                                        <a href='{{ url('gudangtracking/' . $item->id . '/edit') }}'
+                                            style="color: white;">Edit</a>
                                     </button>
-                                    <form action="{{ url('tracking/'.$item->id.'/complete') }}" method="post" class="me-2">
+                                    <form action="{{ url('tracking/' . $item->id . '/complete') }}" method="post"
+                                        class="me-2">
                                         @csrf
-                                        <button class="btn btn-success btn-sm" type="submit" {{ $item->is_completed ? 'disabled' : '' }}>Selesai</button>
+                                        <button class="btn btn-success btn-sm" type="submit"
+                                            {{ $item->is_completed ? 'disabled' : '' }}>Selesai</button>
                                     </form>
                                 </div>
                             </td>
@@ -132,7 +140,7 @@
 
     <script src={{ asset('js/jquery.min.js') }}></script>
     <script src={{ asset('js/popper.js') }}></script>
-    <script src={{ asset('js/bootstrap.min.js') }}></script>
+    <script src={{ asset('js/bootstrap.min.js') }}"></script>
     <script src={{ asset('js/main.js') }}></script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -145,4 +153,5 @@
         });
     </script>
 </body>
+
 </html>
