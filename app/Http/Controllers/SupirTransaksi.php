@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\bukti;
 use App\Models\transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SupirTransaksi extends Controller
 {
@@ -98,8 +99,9 @@ class SupirTransaksi extends Controller
      */
     public function edit($id)
     {
-        $data = Bukti::where('id_transaksi', $id)->first();
-        return view('supir.supirtransaksi.edit')->with('data', $data);
+        $transaksi = Transaksi::find($id);
+        $data = Bukti::where('id_transaksi', $transaksi->id_transaksi)->first();
+        return view('supir.supirtransaksi-edit')->with('data', $data);
     }
 
     /**
@@ -109,9 +111,30 @@ class SupirTransaksi extends Controller
      * @param  \App\Models\bukti  $bukti
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, bukti $bukti)
+    public function update(Request $request, $id)
     {
-        //
+        $bukti = Bukti::find($id);
+        $data = [
+            'keterangan' => $request->keterangan
+        ];
+        if ($request->hasFile('file')) {
+            // Retrieve the current image path from the database
+            $currentImagePath = $bukti->gambar;
+
+            // Delete the existing image file if it exists
+            if ($currentImagePath && Storage::disk('public')->exists($currentImagePath)) {
+                Storage::disk('public')->delete($currentImagePath);
+            }
+            $fileName = time() . '.' . $request->file->extension();
+            $filePath = $request->file->storeAs('uploads', $fileName, 'public');
+            $data['gambar'] = $filePath;
+
+            Bukti::where('id', $id)->update($data);
+            return redirect()->to('supirtransaksi')->with('success', 'Bukti transaksi berhasil di update');
+        }
+
+        Bukti::where('id', $id)->update($data);
+        return redirect()->to('supirtransaksi')->with('success', 'Bukti transaksi berhasil di update');
     }
 
     /**

@@ -102,7 +102,7 @@
                             </td>
                             <td>
                                 @if ($item->bukti)
-                                    <a href='{{ url('transaksi/' . $item->id . '/edit') }}'
+                                    <a href='{{ url('supirtransaksi/' . $item->id . '/edit') }}'
                                         class="btn btn-warning btn-sm me-2">Edit</a>
                                 @else
                                     <form action="{{ url('supirtransaksi/upload') }}" method="post"
