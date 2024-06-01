@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\bukti;
 use App\Models\transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SupirTransaksi extends Controller
 {
@@ -15,24 +16,6 @@ class SupirTransaksi extends Controller
      */
     public function index(Request $request)
     {
-        // $katakunci = $request->katakunci; // Mengambil kata kunci dari request
-        // $jumlahbaris = 5; // Jumlah baris per halaman untuk pagination
-
-        // // Inisialisasi query dengan urutan berdasarkan tanggal
-        // if(strlen($katakunci)){
-        //     $data = transaksi::where('name','like',"%$katakunci%")
-        //             ->orWhere('phone','like',"%$katakunci%")
-        //             ->orWhere('pickup_address','like',"%$katakunci%")
-        //             ->orWhere('destination_address','like',"%$katakunci%")
-        //             ->with('bukti')
-        //             ->paginate($jumlahbaris);
-        // }else{
-        //     $data = transaksi::orderBy('id','desc')
-        //             ->with('bukti')
-        //             ->paginate($jumlahbaris);
-        // }
-        // return view('supir.supirtransaksi')->with('data', $data);
-
         $katakunci = $request->katakunci; // Mengambil kata kunci dari request
         $jumlahbaris = 5; // Jumlah baris per halaman untuk pagination
 
@@ -114,9 +97,11 @@ class SupirTransaksi extends Controller
      * @param  \App\Models\bukti  $bukti
      * @return \Illuminate\Http\Response
      */
-    public function edit(bukti $bukti)
+    public function edit($id)
     {
-        //
+        $transaksi = Transaksi::find($id);
+        $data = Bukti::where('id_transaksi', $transaksi->id_transaksi)->first();
+        return view('supir.supirtransaksi-edit')->with('data', $data);
     }
 
     /**
@@ -126,9 +111,30 @@ class SupirTransaksi extends Controller
      * @param  \App\Models\bukti  $bukti
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, bukti $bukti)
+    public function update(Request $request, $id)
     {
-        //
+        $bukti = Bukti::find($id);
+        $data = [
+            'keterangan' => $request->keterangan
+        ];
+        if ($request->hasFile('file')) {
+            // Retrieve the current image path from the database
+            $currentImagePath = $bukti->gambar;
+
+            // Delete the existing image file if it exists
+            if ($currentImagePath && Storage::disk('public')->exists($currentImagePath)) {
+                Storage::disk('public')->delete($currentImagePath);
+            }
+            $fileName = time() . '.' . $request->file->extension();
+            $filePath = $request->file->storeAs('uploads', $fileName, 'public');
+            $data['gambar'] = $filePath;
+
+            Bukti::where('id', $id)->update($data);
+            return redirect()->to('supirtransaksi')->with('success', 'Bukti transaksi berhasil di update');
+        }
+
+        Bukti::where('id', $id)->update($data);
+        return redirect()->to('supirtransaksi')->with('success', 'Bukti transaksi berhasil di update');
     }
 
     /**
