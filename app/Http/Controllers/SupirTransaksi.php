@@ -15,24 +15,6 @@ class SupirTransaksi extends Controller
      */
     public function index(Request $request)
     {
-        // $katakunci = $request->katakunci; // Mengambil kata kunci dari request
-        // $jumlahbaris = 5; // Jumlah baris per halaman untuk pagination
-
-        // // Inisialisasi query dengan urutan berdasarkan tanggal
-        // if(strlen($katakunci)){
-        //     $data = transaksi::where('name','like',"%$katakunci%")
-        //             ->orWhere('phone','like',"%$katakunci%")
-        //             ->orWhere('pickup_address','like',"%$katakunci%")
-        //             ->orWhere('destination_address','like',"%$katakunci%")
-        //             ->with('bukti')
-        //             ->paginate($jumlahbaris);
-        // }else{
-        //     $data = transaksi::orderBy('id','desc')
-        //             ->with('bukti')
-        //             ->paginate($jumlahbaris);
-        // }
-        // return view('supir.supirtransaksi')->with('data', $data);
-
         $katakunci = $request->katakunci; // Mengambil kata kunci dari request
         $jumlahbaris = 5; // Jumlah baris per halaman untuk pagination
 
@@ -114,9 +96,10 @@ class SupirTransaksi extends Controller
      * @param  \App\Models\bukti  $bukti
      * @return \Illuminate\Http\Response
      */
-    public function edit(bukti $bukti)
+    public function edit($id)
     {
-        //
+        $data = Bukti::where('id_transaksi', $id)->first();
+        return view('supir.supirtransaksi.edit')->with('data', $data);
     }
 
     /**

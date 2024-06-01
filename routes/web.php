@@ -131,6 +131,8 @@ Route::resource('/supirprofile', SupirProfile::class);
 
 //Supir Transaksi
 Route::resource('/supirtransaksi', SupirTransaksi::class);
+Route::get('/supirtransaksi/edit', [SupirTransaksi::class, 'edit']);
+Route::put('/supirtransaksi/update', [SupirTransaksi::class, 'update']);
 Route::post('/supirtransaksi/upload', [SupirTransaksi::class, 'upload']);
 
 
