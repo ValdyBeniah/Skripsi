@@ -74,8 +74,8 @@
                         <th scope="col">Supir</th>
                         <th scope="col">Plat</th>
                         <th scope="col">Berat</th>
-                        <th scope="col">Foto</th>
                         <th scope="col">Keterangan</th>
+                        <th scope="col">Foto</th>
                         <th scope="col">#</th>
                     </tr>
                 </thead>
@@ -91,12 +91,11 @@
                             <td>{{ $item->supir }}</td>
                             <td>{{ $item->plat }}</td>
                             <td>{{ $item->weight }}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ $item->bukti->keterangan ?? '' }}</td>
                             <td>
                                 @if ($item->bukti)
-                                    <img src="{{ asset('storage/app/public/' . $item->bukti->gambar) }}"
-                                        alt="gambar bukti transaksi" width="50">
+                                    <img src="{{ asset('storage/' . $item->bukti->gambar) }}"
+                                        alt="gambar bukti transaksi" width="200">
                                 @else
                                     <form action="{{ url('supirtransaksi/upload') }}" method="post"
                                         enctype="multipart/form-data">
@@ -108,7 +107,6 @@
                                     </form>
                                 @endif
                             </td>
-                            <td>{{ $item->bukti->keterangan ?? '' }}</td>
                             {{-- <td>
                                 @if ($item->bukti)
                                     <img src="{{ asset('storage/' . $item->bukti->gambar) }}" alt="Image" width="50">
