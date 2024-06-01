@@ -91,11 +91,19 @@
                             <td>{{ $item->supir }}</td>
                             <td>{{ $item->plat }}</td>
                             <td>{{ $item->weight }}</td>
-                            <td>{{ $item->bukti->keterangan ?? '' }}</td>
+                            <td>{{ $item->bukti->keterangan ?? '- - -' }}</td>
                             <td>
                                 @if ($item->bukti)
                                     <img src="{{ asset('storage/' . $item->bukti->gambar) }}"
                                         alt="gambar bukti transaksi" width="200">
+                                @else
+                                    {{ '- - -' }}
+                                @endif
+                            </td>
+                            <td>
+                                @if ($item->bukti)
+                                    <a href='{{ url('transaksi/' . $item->id . '/edit') }}'
+                                        class="btn btn-warning btn-sm me-2">Edit</a>
                                 @else
                                     <form action="{{ url('supirtransaksi/upload') }}" method="post"
                                         enctype="multipart/form-data">
@@ -107,21 +115,6 @@
                                     </form>
                                 @endif
                             </td>
-                            {{-- <td>
-                                @if ($item->bukti)
-                                    <img src="{{ asset('storage/' . $item->bukti->gambar) }}" alt="Image" width="50">
-                                @else
-                                    <form action="{{ url('supirtransaksi/upload') }}" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        <input type="file" name="file" required>
-                                        <input type="text" name="keterangan" placeholder="Keterangan" required>
-                                        <input type="hidden" name="transaksi_id" value="{{ $item->id }}">
-                                        <button type="submit" class="btn btn-primary btn-sm">Upload</button>
-                                    </form>
-                                @endif
-                            </td>
-                            <td>{{ $item->bukti->keterangan ?? '' }}</td>
-                            <td></td> --}}
                         </tr>
                     @endforeach
                 </tbody>
