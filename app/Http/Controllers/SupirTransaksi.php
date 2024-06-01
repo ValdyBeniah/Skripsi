@@ -37,15 +37,17 @@ class SupirTransaksi extends Controller
         $jumlahbaris = 5; // Jumlah baris per halaman untuk pagination
 
         // Inisialisasi query dengan urutan berdasarkan tanggal
-        if(strlen($katakunci)){
+        if (strlen($katakunci)) {
             $data = Transaksi::with('bukti')
-                    ->where('name','like',"%$katakunci%")
-                    ->orWhere('phone','like',"%$katakunci%")
-                    ->orWhere('pickup_address','like',"%$katakunci%")
-                    ->orWhere('destination_address','like',"%$katakunci%")
-                    ->paginate($jumlahbaris);
-        }else{
-            $data = Transaksi::with('bukti')->orderBy('id','desc')->paginate($jumlahbaris);
+                ->where(function ($query) use ($katakunci) {
+                    $query->where('name', 'like', "%$katakunci%")
+                        ->orWhere('phone', 'like', "%$katakunci%")
+                        ->orWhere('pickup_address', 'like', "%$katakunci%")
+                        ->orWhere('destination_address', 'like', "%$katakunci%");
+                })
+                ->paginate($jumlahbaris);
+        } else {
+            $data = Transaksi::with('bukti')->orderBy('id', 'desc')->paginate($jumlahbaris);
         }
         return view('supir.supirtransaksi')->with('data', $data);
     }
@@ -63,9 +65,9 @@ class SupirTransaksi extends Controller
         if ($request->hasFile('file')) {
             $fileName = time() . '.' . $request->file->extension();
             $filePath = $request->file->storeAs('uploads', $fileName, 'public');
-            
+
             Bukti::create([
-                'transaksi_id' => $transaksi->id,
+                'id_transaksi' => $transaksi->id_transaksi,
                 'gambar' => $filePath,
                 'keterangan' => $request->keterangan
             ]);

@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('bukti', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('id_transaksi');
+            $table->foreign('id_transaksi')->references('id_transaksi')->on('transaksi')->onDelete('cascade');
+            $table->string('gambar');
             $table->string('keterangan');
         });
     }

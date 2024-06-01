@@ -29,6 +29,6 @@ class transaksi extends Model
 
     public function bukti()
     {
-        return $this->hasOne(Bukti::class, 'id');
+        return $this->hasOne(Bukti::class, 'id_transaksi', 'id_transaksi');
     }
 }
